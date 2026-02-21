@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 
 export const ListComponent: React.FC<{
   title: string;
@@ -9,9 +9,9 @@ export const ListComponent: React.FC<{
 }> = ({ title, description, filter, options, isReset }) => {
   const [value, setValue] = useState<string>("");
 
-  useEffect(() => {
-    if (isReset) setValue("");
-  }, [isReset]);
+  if(isReset && value !== "") {
+    setValue("");
+  }
 
   const onChangeFunction = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     setValue(e.target.value);
