@@ -1,9 +1,20 @@
 import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
 import React, { memo, useEffect, useMemo } from "react";
+import L from "leaflet";
 import type { Center, MapDetails } from "./MapComponentTypes";
 
 const GERMANY_POSITION: Center = [51.01712, 10.05861];
 const DEFAULT_ZOOM = 6;
+
+// Customize marker icon size
+const customIcon = new L.Icon({
+  iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png",
+  iconSize: [25, 41], // width, height in pixels
+  iconAnchor: [12, 41], // point of the icon which will correspond to marker's location
+  popupAnchor: [1, -34],
+  shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
+  shadowSize: [41, 41],
+});
 
 const Mapcomponent: React.FC<{
   stations: MapDetails;
@@ -53,6 +64,7 @@ const Mapcomponent: React.FC<{
         <Marker
           key={station.id}
           position={[station.lat, station.lng]}
+          icon={customIcon}
           eventHandlers={{ click: () => filterByStationHandler(station.id.toString()) }}
         />
       ))}
