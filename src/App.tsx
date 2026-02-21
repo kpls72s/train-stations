@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import "./App.css";
 import type { MapDetails } from "./Components/MapComponent/MapComponentTypes";
 import { ListComponent } from "./Components/ListComponent/ListComponent";
@@ -8,11 +8,12 @@ import ListSkeleton from "./Components/ListSkeleton/ListSkeleton";
 
 function App() {
   const [data, setData] = useState<MapDetails | []>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<{ message: string } | null>(null);
 
   const [filterByCity, setFilterByCity] = useState<string>("");
   const [filterByStation, setFilterByStation] = useState<string>("");
+
 
   const CITY_LIST = useMemo(() => {
     const seen = new Set<string>();
@@ -63,9 +64,7 @@ function App() {
       });
   }, []);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  if(data.length==0 && !error && !loading) fetchData();
 
   const filterByStationHandler = useCallback((value: string) => {
     setFilterByStation(value);
